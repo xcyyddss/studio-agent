@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Studio · 协作工作台</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<aside>
+  <div class="brand"><span class="mark">S</span><div>Studio<small>协作工作台</small></div></div>
+  <button id="new" class="primary">＋ 开始一个目标</button>
+  <p class="label">工作记录</p><nav id="runs"></nav>
+  <footer>议会提出方向<br>作者推进议题<br>经验返回下一次思考</footer>
+</aside>
+<main>
+  <header><div><p class="eyebrow">STUDIO WORKSPACE</p><h1 id="title">让一个目标开始流动</h1></div><span id="connection" class="badge">本地工作台</span></header>
+  <section id="welcome" class="card">
+    <h2>从你现在知道的地方开始</h2>
+    <p>写下想完成的工作、已经确定的条件，以及还不清楚的地方。系统将通过议会和独立作者推进，保留每次判断的依据。</p>
+    <form id="create"><label for="goal">当前目标</label><textarea id="goal" rows="6" required placeholder="例如：比较三种资料归档方案，说明适用条件、取舍依据和实施步骤。"></textarea><label for="create-workers">本目标最大同时调用</label><input id="create-workers" type="number" min="1" max="32" step="1" value="6" required><label for="web-search">网页检索</label><select id="web-search"><option value="live">实时检索</option><option value="cached">缓存检索</option><option value="disabled">关闭</option></select><label class="checkbox"><input type="checkbox" id="sandbox-tests">允许在隔离环境中运行生成的 Python 测试</label><button class="primary">创建并开始运行</button><small>使用本机已登录的 Codex；运行将产生模型调用。</small></form>
+  </section>
+  <div id="workspace" hidden>
+    <details class="card"><summary>完整目标与已知条件</summary><pre id="goal-detail"></pre></details>
+    <section class="toolbar"><span id="state" class="badge"></span><span id="activity"></span><div class="spacer"></div><button id="continue">继续运行</button><button id="pause">暂停派发</button><button id="refresh">刷新</button><button id="checkpoint">保存停点</button><button id="fork">从停点另起</button></section>
+    <form id="scheduling" class="toolbar"><label for="workers">本目标最大同时调用</label><input id="workers" type="number" min="1" max="32" step="1" value="6" required><button>保存并发设置</button><small id="workers-status">只影响后续派发，降低上限不会中断正在运行的调用。</small></form>
+    <div id="notice" class="notice" hidden></div>
+    <section class="metrics" id="metrics"></section>
+    <div class="columns">
+      <section class="card"><div class="section-title"><h2>议题与进展</h2><span id="topic-count"></span></div><div id="topics" class="stack"></div></section>
+      <section class="card"><h2>当前交付</h2><div id="deliveries" class="stack"></div><div id="files" class="stack"></div></section>
+    </div>
+    <section class="card" id="questions-card"><h2>需要你的参与</h2><p class="muted">回答会进入对应议题；暂时没有答案时，也可以继续其他工作。</p><div id="questions" class="stack"></div></section>
+    <section class="card"><h2>已提交回答与处理进度</h2><p class="muted">提交后保留原问题和回答。已保存、正在处理、等待后继和已明确处理分别显示。</p><div id="input-receipts" class="stack"></div></section>
+    <section class="card"><h2>文件交流</h2><p class="muted">在问题下查看、下载附件并回传修改版，也可在此直接交给指定议题。记录区分收到、正文送达与议题承接；送达不代表理解正确。</p><form id="file-upload"></form><details><summary>文件与版本、读取和承接记录</summary><div id="attachment-library" class="stack"></div></details></section>
+    <section class="card"><h2>补充想法或修正</h2><form id="input"><textarea id="input-text" rows="3" required placeholder="新的想法、遗漏条件，或者需要修正的理解……"></textarea><label>交给 <select id="input-topic"><option value="ROOT">当前目标</option><option value="USER">用户协作议题</option></select></label><label class="checkbox"><input type="checkbox" id="correction">这是对已有信息的修正</label><label>协作用途 <select id="profile-scope"><option value="collaboration">可用于本任务的协作建议</option><option value="profile">仅供用户协作议题理解</option><option value="none">不用于画像与引导学习</option></select></label><button>提交给系统</button></form></section>
+    <section class="card"><h2>怎样与你协作</h2><p class="muted">这些是有来源、可修正的情境判断。你可以向用户协作议题补充或纠正。未得到回答不代表能力不足。</p><div id="user-state"></div><div id="user-assets" class="stack"></div></section>
+    <section class="card"><h2>检索来源</h2><div id="web-results" class="stack"></div></section>
+    <section class="card"><h2>运行恢复与上下文整理</h2><div id="recovery" class="stack"></div></section>
+    <section class="card"><h2>Python 隔离测试</h2><p class="muted">环境检查只运行固定探针。重新执行保留旧收据，使用同一版本文件；修改代码后应由议题提出新测试。</p><button id="sandbox-check">检查测试环境</button><p id="sandbox-health"></p><div id="python-tests" class="stack"></div></section>
+    <details class="card"><summary>经验、执行工具与待处理诊断</summary><pre id="maintenance"></pre></details>
+    <section class="card"><h2>执行记录</h2><p class="muted">已返回不等于已采纳；失败和执行结果不明会单独保留。</p><div id="jobs"></div></section>
+    <details class="card"><summary>查看状态快照与运行索引</summary><pre id="raw"></pre></details>
+  </div>
+  <div id="error" role="alert" hidden></div>
+</main>
+<script src="/attachments.js"></script><script src="/sandbox.js"></script><script src="/app.js"></script>
+</body></html>

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "studio-workbench"
+version = "4.10.0"
+description = "Local council and topic workflow with user collaboration"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md", "studio_runtime/tokenizer_data/LICENSE.tiktoken"]
+requires-python = ">=3.11"
+dependencies = ["Pillow>=11,<13", "pypdf>=6.10,<7", "tiktoken>=0.12,<1"]
+
+[project.scripts]
+studio = "studio_runtime.__main__:main"
+
+[tool.setuptools]
+packages = ["studio_runtime"]
+include-package-data = false
+
+[tool.setuptools.package-data]
+studio_runtime = ["static/*.html", "static/*.css", "static/*.js", "protocols/*.json", "tokenizer_data/*"]
